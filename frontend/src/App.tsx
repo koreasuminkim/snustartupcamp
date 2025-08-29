@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+import { Link } from 'react-router-dom'
 
 function App() {
   const [apiHealth, setApiHealth] = useState('checking...')
@@ -18,7 +19,8 @@ function App() {
           <h1 className="hero__title">SNU Startup Camp</h1>
           <p className="hero__subtitle">아이디어를 제품으로. 팀을 성장으로.</p>
           <div className="hero__cta">
-            <a className="btn btn--primary" href="#get-started">Get Started</a>
+            <Link className="btn btn--primary" to="/getting-started">Get Started</Link>
+            <Link className="btn btn--secondary" to="/upload">업로드</Link>
             <span className="health">API: {apiHealth}</span>
           </div>
         </div>
