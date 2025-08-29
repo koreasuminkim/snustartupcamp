@@ -160,6 +160,7 @@
 .doc-lines { background-image: linear-gradient(#f3f4f6 1px, transparent 1px); background-size: 100% 28px; height: 100%; }
 
 .gs-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 1rem; flex: 0 0 auto; }
+.gs-actions__left { display: inline-flex; gap: 1rem; align-items: center; }
 .gs-actions__right { display: inline-flex; gap: 1rem; align-items: center; }
 .spinner { display: inline-flex; align-items: center; gap: 0.5rem; color: #6b7280; }
 .spinner .ring { width: 22px; height: 22px; border: 3px solid #e5e7eb; border-top-color: #9ca3af; border-radius: 9999px; animation: spin 1s linear infinite; }
@@ -168,3 +169,26 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Prompt page */
+.prompt-hero { display: flex; justify-content: center; padding: 4rem 0 2rem; }
+.prompt-hero h2 { font-size: 2rem; font-weight: 700; color: #0f172a; }
+
+.prompt-wrap { flex: 1 1 auto; min-height: 0; display: grid; place-items: start center; }
+.prompt-area { width: clamp(640px, 70vw, 1100px); }
+.prompt-frame { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 2rem; }
+
+.prompt-box {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  background: #e5e7eb;
+  border-radius: 12px;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  width: 100%;
+}
+.prompt-box__plus { font-size: 1.75rem; padding: 0 0.5rem; color: #0f172a; }
+.prompt-input { border: none; background: transparent; font-size: 1.1rem; outline: none; padding: 0 0.5rem; color: #0f172a; }
+.prompt-actions { display: inline-flex; gap: 0.5rem; }
+.prompt-action { background: #9ca3af; color: #fff; border-radius: 8px; padding: 0.4rem 0.6rem; border: none; }

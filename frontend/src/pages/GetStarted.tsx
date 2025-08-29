@@ -30,7 +30,7 @@ function GetStarted() {
           <Link className="gs-nav__item" to="/">🏠 홈</Link>
           <button className="gs-nav__item is-active">⬆ 업로드</button>
           <button className="gs-nav__item">🗂 DB 조회</button>
-          <button className="gs-nav__item">🧩 프롬프트</button>
+          <Link className="gs-nav__item" to="/prompt">🧩 프롬프트</Link>
         </nav>
       </aside>
 
@@ -58,9 +58,11 @@ function GetStarted() {
         </div>
 
         <div className="gs-actions">
-          <button className="btn btn--secondary">✈ 공유하기</button>
-          <div className="gs-actions__right">
+          <div className="gs-actions__left">
+            <button className="btn btn--secondary">✈ 공유하기</button>
             <button className="btn btn--primary large">DB 저장하기</button>
+          </div>
+          <div className="gs-actions__right">
             <div className="spinner">
               <div className="ring"></div>
               <span>Loading</span>

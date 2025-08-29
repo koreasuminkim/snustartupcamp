@@ -4,10 +4,12 @@ import './index.css'
 import App from './App.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import GetStarted from './pages/GetStarted.tsx'
+import PromptPage from './pages/Prompt.tsx'
 
 const router = createBrowserRouter([
   { path: '/', element: <App /> },
   { path: '/get-started', element: <GetStarted /> },
+  { path: '/prompt', element: <PromptPage /> },
 ])
 
 createRoot(document.getElementById('root')!).render(
