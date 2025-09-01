@@ -1,10 +1,39 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
 
 function GetStarted() {
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [imagePreviews, setImagePreviews] = useState<string[]>([])
+  const [isProcessing] = useState<boolean>(false)
+  const navigate = useNavigate()
+
+  const handleClickUpload = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFilesSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    const urls = Array.from(files).map((file) => URL.createObjectURL(file))
+    setImagePreviews((prev) => [...prev, ...urls])
+    // reset to allow re-selecting the same file
+    e.target.value = ''
+  }
+
+  const handleSaveToDb = () => {
+    navigate('/processing', { state: { imageCount: imagePreviews.length } })
+  }
+
+  useEffect(() => {
+    return () => {
+      imagePreviews.forEach((url) => URL.revokeObjectURL(url))
+    }
+  }, [imagePreviews])
+
   return (
     <div className="gs-layout">
       <aside className="gs-sidebar">
-        <div className="gs-logo">로고</div>
+        <div className="gs-logo"><img src="/logo.png" alt="NoteFit" style={{ height: '70px' }} /></div>
         <div className="gs-quick">
           <button className="icon-circle" aria-label="camera">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -39,35 +68,77 @@ function GetStarted() {
           <h2>자료 업로드</h2>
           <div className="gs-tools">
             <button className="btn btn--secondary">사진 촬영</button>
-            <button className="btn btn--primary">파일 업로드</button>
+            <button className="btn btn--primary" onClick={handleClickUpload}>파일 업로드</button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              multiple
+              onChange={handleFilesSelected}
+              style={{ display: 'none' }}
+            />
           </div>
         </header>
 
-        <div className="gs-canvas">
-          <div className="doc-toolbar">
-            <div className="doc-toolbar__left">
-              <span className="dot"></span>
-              <span className="dot"></span>
-              <span className="dot"></span>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: '1 1 auto', minHeight: 0 }}>
+          {isProcessing && (
+            <div style={{
+              marginTop: '1rem',
+              background: '#f3f4f6',
+              border: '1px solid #e5e7eb',
+              borderRadius: '12px',
+              padding: '0.75rem 0.75rem'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <div aria-hidden="true" style={{ width: '28px', height: '28px', display: 'grid', placeItems: 'center' }}>🤖</div>
+                <div style={{ background: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '0.75rem 1rem' }}>
+                  <div className="spinner"><div className="ring"></div><span>이미지 인식 중...</span></div>
+                </div>
+              </div>
             </div>
-            <div className="doc-toolbar__title">이름 없는 노트북</div>
-          </div>
-          <div className="doc-page">
-            <div className="doc-lines"></div>
-          </div>
+          )}
+
+          {imagePreviews.length > 0 && (
+            <div
+              className="upload-preview"
+              style={{
+                marginTop: '1rem',
+                flex: '1 1 auto',
+                minHeight: 0,
+                overflow: 'auto',
+                display: 'grid',
+                gridTemplateColumns: '1fr',
+                gap: '0.75rem',
+                alignContent: 'start'
+              }}
+            >
+              {imagePreviews.map((src, index) => (
+                <div key={index} style={{
+                  width: '100%',
+                  background: '#ffffff',
+                  border: '1px solid #e5e7eb',
+                  borderRadius: '10px',
+                  overflow: 'hidden'
+                }}>
+                  <img
+                    src={src}
+                    alt={`uploaded-${index}`}
+                    style={{ width: '100%', height: 'auto', display: 'block' }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
+
+        
 
         <div className="gs-actions">
           <div className="gs-actions__left">
             <button className="btn btn--secondary">✈ 공유하기</button>
-            <button className="btn btn--primary large">DB 저장하기</button>
+            <button className="btn btn--primary large" onClick={handleSaveToDb}>DB 저장하기</button>
           </div>
-          <div className="gs-actions__right">
-            <div className="spinner">
-              <div className="ring"></div>
-              <span>Loading</span>
-            </div>
-          </div>
+          <div className="gs-actions__right"></div>
         </div>
       </section>
     </div>
